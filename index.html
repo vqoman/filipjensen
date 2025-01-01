@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filip's Poetry Collection</title>
+    <style>
+        body {
+            font-family: Arial;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        body.dark-mode {
+            background-color: #1a1a1a;
+        }
+
+        body.dark-mode h1,
+        body.dark-mode h2 {
+            color: #81a1c1;
+        }
+
+        body.dark-mode p {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .poem,
+        body.dark-mode #intro,
+        body.dark-mode #search-container {
+            background-color: #2d2d2d;
+        }
+
+        #search-container {
+            margin-top: 30px;
+            margin-bottom: 30px;
+            background-color: white;
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        #search-input {
+            width: 100%;
+            padding: 8px;
+            border: 2px solid #3498db;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .highlight {
+            background-color: yellow;
+            color: black;
+            padding: 0 2px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #theme-button {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            background-color: white;
+            color: black;
+        }
+
+        body.dark-mode #theme-button {
+            background-color: #2d2d2d;
+            color: white;
+        }
+
+        #intro {
+            background-color: white;
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 32px;
+        }
+
+        .poem {
+            background-color: white;
+            padding: 24px;
+            margin-bottom: 24px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 16px;
+        }
+
+        p {
+            line-height: 1.6;
+            color: #444;
+        }
+    </style>
+</head>
+<body>
+    <button id="theme-button" onclick="changeTheme()">🌓 Toggle Theme</button>
+    
+    <div id="intro">
+        <h1>My name is Filip Jennesen</h1>
+        <p>I'm Filip Jennesen, the celebrated author of the Rikard Jensen series. My writing goes beyond just telling stories, it's more of a precious gift to humanity than anything. With every line, I aim to share wisdom, depth, and a deep connection to the heart of life. My works aren't just for entertainment; they're treasures that offer timeless insights. As a poet, I strive to create pieces that reflect the greatness of the human spirit.</p>
+    </div>
+
+    <div id="search-container">
+        <input type="text" id="search-input" placeholder="Search poems..." onkeyup="searchPoems()">
+    </div>
+    
+    <div class="poem">
+        <h2>Whispers of Dawn</h2>
+        <p>
+            The sky, once dark, begins to sigh, <br>
+            As colors bloom and kiss the sky. <br>
+            A whisper stirs the sleepy trees, <br>
+            The morning dances on the breeze. <br>
+            <br>
+            The stars retreat, their light now pale, <br>
+            As golden beams begin to sail, <br>
+            Across the hills and valleys deep, <br>
+            Where shadows wake from restless sleep. <br>
+            <br>
+            A soft caress upon the land, <br>
+            As night and day both understand— <br>
+            The sun will rise and gently sweep <br>
+            The dark away, and dreams will sleep.            
+        </p>
+    </div>
+
+    <div class="poem">
+        <h2>Silent Snow</h2>
+        <p>
+            Beneath the heavens, soft and slow, <br>
+            A blanket forms from silent snow. <br>
+            Each flake a story, old and new, <br>
+            Falling in patterns, pure and true. <br>
+            <br>
+            The world is hushed, as if to hear <br>
+            The secrets whispered far and near. <br>
+            The trees stand still, their branches bare, <br>
+            Adorned with jewels beyond compare. <br>
+            <br>
+            Footprints vanish in the night, <br>
+            As morning brings a world of white. <br>
+            The snow, it falls without a sound, <br>
+            A quiet peace the earth has found. <br>
+            <br>
+            Through every flake, a song is sung, <br>
+            Of days gone by and those yet young. <br>
+            In silent snow, the heart may see <br>
+            The timeless beauty of the free.
+        </p>
+    </div>
+
+    <script>
+        // Check if dark mode was saved
+        if(localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // Function to change theme
+        function changeTheme() {
+            // Toggle dark mode class
+            document.body.classList.toggle('dark-mode');
+            
+            // Save the preference
+            var isDarkMode = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDarkMode);
+        }
+
+        // Function to search poems
+        function searchPoems() {
+            // Get the search text
+            var searchText = document.getElementById('search-input').value;
+            searchText = searchText.toLowerCase();
+            
+            // Get all poems
+            var poems = document.getElementsByClassName('poem');
+            
+            // Loop through each poem
+            for(var i = 0; i < poems.length; i++) {
+                var poem = poems[i];
+                var title = poem.getElementsByTagName('h2')[0].innerText.toLowerCase();
+                var content = poem.getElementsByTagName('p')[0].innerText.toLowerCase();
+                
+                // Remove old highlights
+                poem.innerHTML = poem.innerHTML.replace(/<mark class="highlight">|<\/mark>/g, '');
+                
+                // Check if the poem matches the search
+                if(title.includes(searchText) || content.includes(searchText)) {
+                    if(searchText.length > 0) {
+                        // Add highlight
+                        var regex = new RegExp(searchText, 'gi');
+                        poem.getElementsByTagName('h2')[0].innerHTML = 
+                            poem.getElementsByTagName('h2')[0].innerHTML.replace(
+                                regex, 
+                                '<mark class="highlight">$&</mark>'
+                            );
+                        poem.getElementsByTagName('p')[0].innerHTML = 
+                            poem.getElementsByTagName('p')[0].innerHTML.replace(
+                                regex, 
+                                '<mark class="highlight">$&</mark>'
+                            );
+                    }
+                    poem.classList.remove('hidden');
+                } else {
+                    poem.classList.add('hidden');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
